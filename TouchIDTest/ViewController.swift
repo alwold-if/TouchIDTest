@@ -16,8 +16,12 @@ class ViewController: UIViewController {
     @IBAction func saveButtonTapped(_ sender: Any) {
         do {
             try TouchIDManager.shared.save(username: usernameTextField.text!, password: passwordTextField.text!)
+            showAlert(text: "Success")
+        } catch TouchIDError.generic(let message) {
+            let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
         } catch {
-            NSLog("errrr \(error)")
         }
     }
 
@@ -29,6 +33,12 @@ class ViewController: UIViewController {
         } else {
             NSLog("got nothing")
         }
+    }
+    
+    func showAlert(text: String) {
+        let alert = UIAlertController(title: text, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
